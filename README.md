@@ -36,9 +36,9 @@ npm run build
 
 ## 🎮 Демонстрация работы
 
-[![Фильтрация](https://img.shields.io/badge/Фильтры-Работает-success)] 
-[![Темы](https://img.shields.io/badge/Темы-2_variants-blue)] 
-[![PDF](https://img.shields.io/badge/PDF_Export-Готов-red)]
+![Фильтрация](https://img.shields.io/badge/Фильтры-Работает-success) 
+![Темы](https://img.shields.io/badge/Темы-2_variants-blue) 
+![PDF](https://img.shields.io/badge/PDF_Export-Готов-red)
 
 ![Интерактивная демонстрация](screenshots/interactive.gif)
 ## 📌 Как использовать
