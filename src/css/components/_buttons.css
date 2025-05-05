@@ -1,0 +1,174 @@
+/* ===== Buttons Component ===== */
+.btn {
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 50px;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn:active {
+    transform: translateY(1px);
+  }
+  
+  /* ===== Filter Buttons ===== */
+  .btn-filter {
+    border: 2px solid var(--color-primary);
+    background: rgba(47, 27, 10, 0.05);
+    color: var(--color-primary);
+    transition: all var(--transition-medium);
+  }
+  
+  .btn-filter:hover {
+    background: rgba(47, 27, 10, 0.1);
+    box-shadow: 0 2px 8px rgba(47, 27, 10, 0.1);
+  }
+  
+  .btn-filter.active {
+    background: var(--color-primary);
+    color: var(--color-bg);
+    box-shadow: 0 4px 12px rgba(47, 27, 10, 0.2);
+  }
+  
+  /* Специфичные стили для тёмных/светлых фильтров */
+  .btn-filter[data-filter="dark"] {
+    border-color: #2F1B0A;
+    color: #2F1B0A;
+  }
+  
+  .btn-filter[data-filter="dark"].active {
+    background: #2F1B0A;
+    color: #FFD700;
+  }
+  
+  .btn-filter[data-filter="light"] {
+    border-color: #FFD700;
+    color: #2F1B0A;
+  }
+  
+  .btn-filter[data-filter="light"].active {
+    background: #FFD700;
+    color: #2F1B0A;
+  }
+  
+  /* ===== PDF Button ===== */
+  .btn-pdf {
+    background: #e74c3c;
+    color: white;
+    padding-left: 2.75rem;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M14 9V3.5L18.5 8M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2m1 18h2v-6H7v6m4 0h2v-8h-2v8m4 0h2v-4h-2v4"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    background-size: 1.2rem;
+    transition: all var(--transition-medium);
+  }
+  
+  .btn-pdf:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+  }
+  
+  /* ===== Theme Switch ===== */
+  .theme-switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    cursor: pointer;
+    padding: var(--space-xs) 0;
+  }
+  
+  .theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: relative;
+    display: inline-block;
+    width: 3.5rem;
+    height: 1.75rem;
+    background: rgba(47, 27, 10, 0.2);
+    transition: all var(--transition-medium);
+    border-radius: 2rem;
+    border: 2px solid rgba(47, 27, 10, 0.1);
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 1.25rem;
+    width: 1.25rem;
+    left: 0.25rem;
+    bottom: 0.2rem;
+    background-color: white;
+    transition: all var(--transition-medium);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  input:checked + .slider {
+    background: var(--color-primary);
+    border-color: rgba(47, 27, 10, 0.3);
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(1.75rem);
+    background-color: var(--color-secondary);
+  }
+  
+  .theme-text {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    user-select: none;
+  }
+  
+  /* ===== Print Styles ===== */
+  @media print {
+    .control-panel, .search-box {
+      display: none !important;
+    }
+    
+    body {
+      background: white !important;
+      color: black !important;
+    }
+    
+    .card {
+      box-shadow: none;
+      border: 1px solid #ddd !important;
+      page-break-inside: avoid;
+    }
+    
+    table {
+      page-break-inside: avoid;
+    }
+  }
+  
+  /* ===== Beer Bubble Effect ===== */
+  .btn-beer-effect::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+  }
+  
+  .btn-beer-effect:hover::after {
+    opacity: 0.4;
+  }

@@ -1,0 +1,112 @@
+/* ===== Header Layout ===== */
+.header {
+    background: var(--card-bg);
+    padding: var(--space-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--space-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--card-border);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    opacity: 0.8;
+  }
+  
+  .control-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  
+  /* ===== Универсальный слайдер ===== */
+
+.theme-toggle {
+  --slider-width: 50px;
+  --slider-height: 26px;
+  --slider-handle-size: 20px; 
+  --slider-padding: 3px;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.slider {
+  position: relative;
+  width: var(--slider-width);
+  height: var(--slider-height);
+  border-radius: var(--slider-height);
+  border: 2px solid var(--slider-border);
+  background: var(--slider-bg);
+  transition: all 0.3s ease;
+  flex-shrink: 0; 
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  width: var(--slider-handle-size);
+  height: var(--slider-handle-size);
+  background: var(--slider-handle-bg);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  left: var(--slider-padding);
+  transition: all 0.3s ease;
+}
+
+.slider.active:before {
+  left: calc(100% - var(--slider-handle-size) - var(--slider-padding));
+}
+
+.theme-text {
+  font-weight: 500;
+  color: var(--theme-text-color);
+}
+  
+
+  .search-box {
+    position: relative;
+    flex-grow: 1;
+    min-width: 200px;
+    max-width: 400px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 9px 15px 9px 35px; 
+    border: 2px solid var(--input-border);
+    border-radius: 20px;
+    background: var(--input-bg) url('data:image/svg+xml;utf8,<svg...>') no-repeat 10px center/16px;
+    color: var(--input-text);
+    font-size: 14px; 
+    line-height: 1.5; 
+    height: 40px; 
+    box-sizing: border-box; 
+  }
+  
+  .search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  
+  .search-input::placeholder {
+    color: var(--input-placeholder);
+    opacity: 0.8;
+  }

@@ -1,0 +1,186 @@
+/* ===== Итоговая тёмная тема ===== */
+[data-theme="dark"] {
+  /* Основные цвета */
+  --color-bg: #0F0A05; 
+  --color-text: #FFEDD5; 
+  --color-primary: #E6B422; 
+  --color-secondary: #2E1A0A; 
+  
+  /* Карточки */
+  --card-bg: #2E1A0A;
+  --card-text: #FFEDD5;
+  --card-border: #5C3A21;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  
+  /* Кнопки */
+  --btn-bg: #5C3A21;
+  --btn-text: #FFD79A;
+  --btn-hover: #7F4F24;
+  --btn-border: #E6B422;
+  
+  /* Поиск */
+  --input-bg: #2E1A0A;
+  --input-text: #FFEDD5;
+  --input-border: #E6B422;
+  --input-placeholder: #D9B56B;
+  
+  /* Слайдер темы */
+  --slider-bg: #5C3317;
+  --slider-border: #E6B422;
+  --slider-handle: #FFD79A;
+  --slider-text: #FFEDD5;
+  
+  /* Таблицы */
+  --table-bg: #3E2815;
+  --table-header-bg: #5C3317;
+  --table-row-odd: rgba(92, 51, 23, 0.3);
+  --table-row-even: rgba(92, 51, 23, 0.5);
+  
+  /* Бейджи */
+  --dark-badge-bg: #5C3317;
+  --dark-badge-text: #FFD79A;
+  --light-badge-bg: #E6B422;
+  --light-badge-text: #2E1A0A;
+}
+
+/* Body */
+[data-theme="dark"] body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Карточки */
+[data-theme="dark"] .card {
+  background: var(--card-bg);
+  color: var(--card-text);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+/* Заголовки */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] .stance-title,
+[data-theme="dark"] .main-title {
+  color: var(--color-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .energy-system.card strong {
+  color: var(--color-primary);
+}
+
+/* Кнопки */
+[data-theme="dark"] .btn,
+[data-theme="dark"] .btn-filter,
+[data-theme="dark"] .btn-pdf {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: 2px solid var(--btn-border);
+  transition: all 0.3s;
+}
+
+[data-theme="dark"] .btn:hover,
+[data-theme="dark"] .btn-filter:hover,
+[data-theme="dark"] .btn-pdf:hover {
+  background: var(--btn-hover);
+  transform: translateY(-2px);
+}
+
+[data-theme="dark"] .btn-filter.active {
+  background: var(--color-primary);
+  color: var(--color-secondary);
+  font-weight: bold;
+}
+
+/* Кнопка PDF с иконкой */
+[data-theme="dark"] .btn-pdf {
+  position: relative;
+}
+
+[data-theme="dark"] .btn-pdf::before {
+  content: "📄";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+}
+
+/* Поисковая строка */
+[data-theme="dark"] .search-input {
+  background-color: var(--input-bg); 
+  border-color: var(--input-border);
+  color: var(--input-text);
+}
+
+/* Переключатель темы */
+[data-theme="dark"] .slider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0; 
+  background: transparent; 
+  border: none; 
+  border-radius: 0;
+}
+
+[data-theme="dark"] .slider {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  background: #5C3317;
+  border: 2px solid #E6B422;
+}
+
+[data-theme="dark"] .slider:before {
+  left: calc(100% - var(--slider-handle-size) - var(--slider-padding));
+  background: #FFD79A;
+}
+
+[data-theme="dark"] .theme-text {
+  color: #FFEDD5;
+}
+
+[data-theme="dark"] .theme-icon {
+  position: static;
+  transform: none;
+}
+
+/* Таблицы */
+[data-theme="dark"] .table {
+  background: var(--table-bg);
+  border: 1px solid var(--card-border);
+}
+
+[data-theme="dark"] .table th {
+  background: var(--table-header-bg);
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .table tr:nth-child(odd) {
+  background: var(--table-row-odd);
+}
+
+[data-theme="dark"] .table tr:nth-child(even) {
+  background: var(--table-row-even);
+}
+
+/* Анимации */
+[data-theme="dark"] .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(230, 180, 34, 0.2);
+}
+
+@keyframes beer-float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+[data-theme="dark"] .btn:hover {
+  animation: beer-float 0.4s ease;
+}

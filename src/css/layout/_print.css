@@ -1,0 +1,54 @@
+/* ===== Print Optimization ===== */
+@media print {
+    /* Reset print styles */
+    body {
+      padding: 0.5cm !important;
+      font-size: 12pt !important;
+      line-height: 1.4;
+      background: #fff !important;
+      -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+    }
+  
+    /* Hide interactive elements */
+    .control-panel,
+    .search-box,
+    .theme-switch,
+    .btn {
+      display: none !important;
+      height: 0 !important;
+      width: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  
+    /* Table adjustments */
+    .table {
+      width: 100% !important;
+      margin: 5mm 0 !important;
+      font-size: 10pt !important;
+      page-break-inside: avoid;
+      border: 1px solid #000 !important;
+    }
+  
+    .table th {
+      background: var(--color-primary) !important;
+      color: #fff !important;
+      padding: 3mm !important;
+    }
+  
+    .table td {
+      padding: 2mm 3mm !important;
+      border: 1px solid #ddd !important;
+    }
+  
+    /* Content blocks */
+    .energy-system,
+    .style-description {
+      page-break-inside: avoid;
+      margin: 8mm 0 !important;
+      padding: 4mm !important;
+      border: 1px solid #ccc !important;
+      box-shadow: none !important;
+    }
+  }

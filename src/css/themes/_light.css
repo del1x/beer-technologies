@@ -1,0 +1,119 @@
+/* ===== Light Beer Theme ===== */
+[data-theme="light"] {
+  /* Основные цвета светлого пива */
+  --color-bg: #F5F0E6; 
+  --color-text: #3E2E10; 
+  --color-primary: #E6A922; 
+  --color-secondary: #D9C8A8; 
+  
+  /* Карточки */
+  --card-bg: rgba(255, 248, 230, 0.95); 
+  --card-border: #D9B56B; 
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  /* Текст */
+  --color-heading: #B78D3F; 
+  --color-link: #D4A017; 
+  --color-link-hover: #E6B422;
+  
+  /* Таблицы */
+  --table-bg: rgba(255, 253, 245, 0.9);
+  --table-border: #D9B56B;
+  --table-header-bg: #E6D5B5;
+  --table-row-odd: rgba(230, 213, 181, 0.3);
+  --table-row-even: rgba(230, 213, 181, 0.5);
+  
+  /* Кнопки */
+  --btn-light-bg: #E6D5B5;
+  --btn-light-text: #5C4A2A;
+  --btn-light-hover: #D9C8A8;
+  
+  /* Бейджи */
+  --dark-badge-bg: #5C4A2A;
+  --dark-badge-text: #F5E6C8;
+  --light-badge-bg: #E6A922;
+  --light-badge-text: #3E2E10;
+  
+  /* Формы */
+  --input-bg: #FFF8E6;
+  --input-border: #D9B56B;
+  --input-text: #3E2E10;
+  --input-placeholder: #A68C5C;
+}
+
+/* Специфичные стили для светлой темы */
+[data-theme="light"] .card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+[data-theme="light"] .table {
+  background: var(--table-bg);
+  border: 1px solid var(--table-border);
+}
+
+[data-theme="light"] .table th {
+  background: var(--table-header-bg);
+  color: var(--color-heading);
+}
+
+[data-theme="light"] .btn-filter.active {
+  background: var(--btn-light-bg);
+  color: var(--btn-light-text);
+}
+
+[data-theme="light"] .dark-badge {
+  background: var(--dark-badge-bg);
+  color: var(--dark-badge-text);
+}
+
+[data-theme="light"] .light-badge {
+  background: var(--light-badge-bg);
+  color: var(--light-badge-text);
+}
+
+/*input*/
+
+[data-theme="light"] .search-input:focus {
+  box-shadow: 0 0 0 2px var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/*Slider*/
+
+[data-theme="light"] .slider {
+  background: #E6D5B5;
+  border-color: #B78D3F;
+}
+
+[data-theme="light"] .slider:before {
+  background: #FFF8E6;
+}
+
+[data-theme="light"] .theme-text {
+  color: #3E2E10;
+}
+
+/* Когда светлая тема активна */
+[data-theme="light"] .slider.active:before {
+  left: calc(var(--slider-width) - var(--slider-handle-size) - var(--slider-padding));
+}
+
+/* Анимации для "светлого пива" */
+[data-theme="light"] .btn:hover {
+  animation: light-foam 0.4s ease;
+}
+
+@keyframes light-foam {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+
+[data-theme="light"] .card:hover {
+  box-shadow: 0 0 15px rgba(230, 169, 34, 0.2);
+  transform: translateY(-3px);
+}

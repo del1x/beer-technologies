@@ -1,0 +1,74 @@
+.energy-system.card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.energy-system.card strong {
+    font-size: 1.2em;
+}
+
+.energy-system.card .dark-badge {
+    background-color: #582c02;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.energy-system.card .light-badge {
+    background-color: #eea111;
+    color: #333;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.dark-badge, .light-badge {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.dark-badge {
+    background: var(--dark-color);
+    color: #FFD700;
+    font-weight: 700;
+}
+
+.light-badge {
+    background: var(--light-color);
+    color: black;
+    font-weight: 700;
+}
+
+.card {
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card.dark {
+    background: #2F1B0A11;
+    border: 2px solid var(--dark-color);
+}
+
+.card.light {
+    background: #FFD70022;
+    border: 2px solid var(--light-color);
+}
+
+.energy-system {
+    background: #FFF3D0;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 25px 0;
+    border: 2px solid var(--light-color);
+}
