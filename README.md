@@ -57,4 +57,4 @@ npm run build
 
 ## 📜 Лицензия
 
-MIT License © [DeLix](https://github.com/DeLix)
+MIT License © [DeL1x](https://github.com/DeL1x)
