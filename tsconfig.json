@@ -9,9 +9,9 @@
     "baseUrl": ".",
     "paths": {
       "@modules/*": ["src/js/modules/*"],
-      "@core/*": ["src/js/core/*"]
+      "@core/*": ["src/js/core/*"],
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*"], 
   "exclude": ["node_modules"]
 }
