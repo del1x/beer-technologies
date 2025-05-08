@@ -1,4 +1,3 @@
-// Типы данных
 type Technique = {
     id: number | string;
     name: string;
@@ -14,7 +13,7 @@ type BeerType = {
     feature: string;
 };
 
-// Все данные таблиц
+
 export const TECHNIQUES_DATA: Record<string, Technique[]> = {
     // Тёмные приёмы - Точный удар
     "dark-precise": [

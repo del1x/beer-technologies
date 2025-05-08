@@ -10,6 +10,7 @@
     "paths": {
       "@modules/*": ["src/js/modules/*"],
       "@core/*": ["src/js/core/*"],
+      "@css/": ["src/css/*"]
     }
   },
   "include": ["src/**/*"], 
