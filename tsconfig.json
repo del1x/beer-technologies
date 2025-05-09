@@ -10,9 +10,9 @@
     "paths": {
       "@modules/*": ["src/js/modules/*"],
       "@core/*": ["src/js/core/*"],
-      "@css/": ["src/css/*"]
+      "@css/*": ["src/css/*"]
     }
   },
-  "include": ["src/**/*"], 
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

@@ -1,0 +1,23 @@
+[
+  { "name": "Imperial Stout", "stance": "dark", "style": "Мутный", "energy": "+3.0 ед.", "feature": "+15% к критическому урону" },
+  { "name": "Pilsner", "stance": "light", "style": "Чистый", "energy": "+1.5 ед.", "feature": "Иммунитет к дебаффам" },
+  { "name": "Baltic Porter", "stance": "dark", "style": "Чистый", "energy": "+2.8 ед.", "feature": "Замедление времени реакции оппонента" },
+  { "name": "Hefeweizen", "stance": "light", "style": "Мутный", "energy": "+1.8 ед.", "feature": "Создание 'пивного тумана'" },
+  { "name": "Oatmeal Stout", "stance": "dark", "style": "Мутный", "energy": "+3.2 ед.", "feature": "Поглощение 20% урона" },
+  { "name": "American Pale Ale", "stance": "light", "style": "Чистый", "energy": "+2.0 ед.", "feature": "Ускорение генерации аргументов" },
+  { "name": "Russian Imperial Stout", "stance": "dark", "style": "Чистый", "energy": "+3.5 ед.", "feature": "'Морозная аура' замедления" },
+  { "name": "Berliner Weisse", "stance": "light", "style": "Мутный", "energy": "+1.2 ед.", "feature": "Регенерация 0.3 ед/ход" },
+  { "name": "Barley Wine", "stance": "dark", "style": "Мутный", "energy": "+4.0 ед.", "feature": "Риск 'похмельного штрафа'" },
+  { "name": "Kölsch", "stance": "light", "style": "Чистый", "energy": "+1.7 ед.", "feature": "+25% к защите от сарказма" },
+  { "name": "Milk Stout", "stance": "dark", "style": "Чистый", "energy": "+2.5 ед.", "feature": "Нейтрализация кислотных комментариев" },
+  { "name": "Gose", "stance": "light", "style": "Мутный", "energy": "+1.9 ед.", "feature": "Солёные контратаки" },
+  { "name": "Rauchbier", "stance": "dark", "style": "Мутный", "energy": "+3.1 ед.", "feature": "Дымовая завеса для аргументов" },
+  { "name": "Session IPA", "stance": "light", "style": "Чистый", "energy": "+2.3 ед.", "feature": "Быстрая перезарядка" },
+  { "name": "Scotch Ale", "stance": "dark", "style": "Чистый", "energy": "+2.9 ед.", "feature": "Устойчивость к манипуляциям" },
+  { "name": "Witbier", "stance": "light", "style": "Мутный", "energy": "+1.6 ед.", "feature": "Аура невинности" },
+  { "name": "Double IPA", "stance": "dark", "style": "Мутный", "energy": "+3.8 ед.", "feature": "Горькие контратаки" },
+  { "name": "Bock", "stance": "dark", "style": "Чистый", "energy": "+3.3 ед.", "feature": "Медвежья устойчивость" },
+  { "name": "Lambic", "stance": "light", "style": "Мутный", "energy": "+2.1 ед.", "feature": "Случайные критические удары" },
+  { "name": "Schwarzbier", "stance": "dark", "style": "Чистый", "energy": "+2.7 ед.", "feature": "Теневое копирование приёмов" },
+  { "name": "New England IPA", "stance": "light", "style": "Мутный", "energy": "+2.4 ед.", "feature": "Туманная логика" }
+]

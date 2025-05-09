@@ -1,54 +1,158 @@
-/* ===== Print Optimization ===== */
+/* ===== PDF Print Styles ===== */
 @media print {
-    /* Reset print styles */
-    body {
-      padding: 0.5cm !important;
-      font-size: 12pt !important;
-      line-height: 1.4;
-      background: #fff !important;
-      -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-    }
-  
-    /* Hide interactive elements */
-    .control-panel,
-    .search-box,
-    .theme-switch,
-    .btn {
-      display: none !important;
-      height: 0 !important;
-      width: 0 !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-  
-    /* Table adjustments */
-    .table {
-      width: 100% !important;
-      margin: 5mm 0 !important;
-      font-size: 10pt !important;
-      page-break-inside: avoid;
-      border: 1px solid #000 !important;
-    }
-  
-    .table th {
-      background: var(--color-primary) !important;
-      color: #fff !important;
-      padding: 3mm !important;
-    }
-  
-    .table td {
-      padding: 2mm 3mm !important;
-      border: 1px solid #ddd !important;
-    }
-  
-    /* Content blocks */
-    .energy-system,
-    .style-description {
-      page-break-inside: avoid;
-      margin: 8mm 0 !important;
-      padding: 4mm !important;
-      border: 1px solid #ccc !important;
-      box-shadow: none !important;
-    }
+  /* Базовые сбросы */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    text-shadow: none !important;
   }
+
+  body {
+    background: var(--color-bg) !important;
+    color: var(--color-text) !important;
+    font-family: var(--font-base) !important;
+    font-size: 12pt !important;
+    line-height: 1.4 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Скрытие ненужных элементов */
+  .header,
+  .control-panel,
+  .search-box,
+  .btn,
+  .theme-toggle,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Основные элементы */
+  .main-title {
+    font-family: var(--font-heading) !important;
+    font-size: 24pt !important;
+    color: var(--color-primary) !important;
+    text-align: center !important;
+    margin: 0 0 10mm 0 !important;
+    padding-bottom: 3mm !important;
+    border-bottom: 2px solid var(--color-primary) !important;
+  }
+
+  /* Карточки */
+  .card {
+    background: var(--card-bg) !important;
+    color: var(--color-text) !important;
+    border: 1px solid var(--color-primary-20) !important;
+    border-radius: var(--border-radius) !important;
+    padding: var(--space-sm) !important;
+    margin: 5mm 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid-page !important;
+  }
+
+  /* Бейджи - полный контроль */
+  .dark-badge,
+  .light-badge,
+  .stance-badge {
+    display: inline-block !important;
+    vertical-align: baseline !important;
+    line-height: 1 !important;
+    padding: 0.5mm 2mm !important;
+    margin: 0 0.5mm !important;
+    font-size: 0.8em !important;
+    border-radius: var(--border-radius-full) !important;
+    height: auto !important;
+    min-height: unset !important;
+  }
+
+  .dark-badge {
+    background: var(--beer-dark) !important;
+    color: var(--beer-light) !important;
+  }
+
+  .dark-badge, .light-badge {
+  height: calc(1em + 1mm) !important;
+}
+
+  .light-badge {
+    background: var(--beer-light) !important;
+    color: var(--beer-dark) !important;
+  }
+
+  /* Таблицы */
+  .table-wrapper {
+    margin: 5mm 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid-page !important;
+  }
+
+  .table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 10pt !important;
+  }
+
+  .table th {
+    background: var(--table-header-bg) !important;
+    color: var(--table-header-color) !important;
+    padding: 1.5mm 2mm !important;
+    text-align: left !important;
+    font-weight: bold !important;
+  }
+
+  .table td {
+    padding: 1mm 2mm !important;
+    border-bottom: 1px solid var(--table-border) !important;
+  }
+
+  .table tr:nth-child(even) {
+    background: var(--table-row-even) !important;
+  }
+
+  /* Разделы */
+  .stance-section {
+    page-break-after: always !important;
+    margin-top: 5mm !important;
+  }
+
+  .stance-title {
+    font-family: var(--font-heading) !important;
+    font-size: 18pt !important;
+    color: var(--color-primary) !important;
+    page-break-before: always !important;
+    margin: 10mm 0 5mm 0 !important;
+    padding-bottom: 2mm !important;
+    border-bottom: 1px solid var(--color-primary) !important;
+  }
+
+  /* Энергосистема */
+  .energy-system {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--color-secondary) !important;
+  }
+
+  /* Отключение ненужных эффектов */
+  * {
+    animation: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Стили для временного контейнера PDF */
+#print-print-container {
+  position: absolute !important;
+  left: -9999px !important;
+  top: 0 !important;
+  width: 210mm !important;
+  padding: 15mm !important;
+  background: var(--color-bg) !important;
+  color: var(--color-text) !important;
+  z-index: 9999 !important;
+}
+
+#print-print-container .main-content {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
