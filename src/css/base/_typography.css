@@ -1,56 +1,135 @@
-/* ===== Base Typography ===== */
+/* ===== Улучшенная типографика ===== */
 body {
-    font-family: var(--font-base);
-    font-size: 1rem;
-    line-height: var(--line-height);
-    color: var(--color-text);
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: bold;
-    margin-bottom: var(--space-sm);
-    line-height: 1.2;
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  letter-spacing: var(--letter-spacing);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700; 
+  line-height: var(--line-height-heading);
+  margin: 0 0 var(--space-sm) 0;
+  color: var(--color-heading); 
+  letter-spacing: var(--letter-spacing-heading);
+}
+
+h1 {
+  font-size: var(--text-xxxl); 
+  padding-bottom: var(--space-xs);
+  border-bottom: 2px solid var(--color-secondary);
+  margin-bottom: var(--space-md);
+}
+
+h2 {
+  font-size: var(--text-xxl); 
+  margin-top: var(--space-xl); 
+  position: relative;
+  padding-left: var(--space-sm);
+}
+
+h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  height: 1em;
+  width: 4px;
+  background: var(--color-secondary);
+  border-radius: 2px;
+}
+
+h3 {
+  font-size: var(--text-xl); 
+  color: var(--color-text); 
+}
+
+/* Текстовые элементы */
+p {
+  margin: 0 0 var(--space-sm) 0;
+  max-width: 65ch; 
+}
+
+strong {
+  font-weight: 600;
+  color: var(--color-text); 
+}
+
+em {
+  font-style: italic;
+}
+
+/* Ссылки */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  border-bottom: 1px solid transparent;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  border-bottom-color: currentColor;
+}
+
+/* Списки */
+ul, ol {
+  padding-left: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+li {
+  margin-bottom: var(--space-xs);
+  line-height: inherit;
+}
+
+/* Адаптивная типографика */
+@media (max-width: 992px) {
+  :root {
+    --text-scale: 1.1; 
   }
   
   h1 {
-    font-size: 2.5rem;
-    border-bottom: 3px solid var(--color-secondary);
-    padding-bottom: var(--space-xs);
+    border-bottom-width: 1px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --text-scale: 1.05; 
+  }
+  
+  h1 {
+    font-size: var(--text-xxl);
+    padding-bottom: var(--space-xxs);
   }
   
   h2 {
-    font-size: 2rem;
+    font-size: var(--text-xl);
     margin-top: var(--space-lg);
+    padding-left: var(--space-xs);
   }
   
   h3 {
-    font-size: 1.75rem;
+    font-size: var(--text-lg);
   }
   
-  p {
-    margin-bottom: var(--space-sm);
+  h2::before {
+    width: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: var(--text-sm); 
   }
   
-  strong {
-    font-weight: 600;
+  ul, ol {
+    padding-left: var(--space-sm);
   }
-  
-  em {
-    font-style: italic;
-  }
-  
-  /* Responsive Typography */
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 2rem;
-    }
-    
-    h2 {
-      font-size: 1.75rem;
-    }
-    
-    h3 {
-      font-size: 1.5rem;
-    }
-  }
+}

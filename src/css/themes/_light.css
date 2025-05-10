@@ -1,67 +1,159 @@
-/* ===== Light Beer Theme ===== */
+/* ===== Улучшенная светлая пивная тема ===== */
 [data-theme="light"] {
-  /* Основные цвета светлого пива */
-  --color-bg: #F5F0E6; 
+  /* Основные цвета */
+  --color-bg: #F9F5ED; 
   --color-text: #3E2E10; 
-  --color-primary: #E6A922; 
-  --color-secondary: #D9C8A8; 
+  --color-primary: #D4A017; 
+  --color-secondary: #E6D5B5; 
   
   /* Карточки */
-  --card-bg: rgba(255, 248, 230, 0.95); 
+  --card-bg: rgba(255, 253, 245, 0.95); 
   --card-border: #D9B56B; 
-  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --card-hover-shadow: 0 6px 16px rgba(212, 160, 23, 0.12);
   
   /* Текст */
   --color-heading: #B78D3F; 
-  --color-link: #D4A017; 
-  --color-link-hover: #E6B422;
+  --color-link: #C28F2D; 
+  --color-link-hover: #D4A017; 
   
   /* Таблицы */
   --table-bg: rgba(255, 253, 245, 0.9);
-  --table-border: #D9B56B;
-  --table-header-bg: #E6D5B5;
-  --table-row-odd: rgba(230, 213, 181, 0.3);
-  --table-row-even: rgba(230, 213, 181, 0.5);
+  --table-border: #E6D5B5;
+  --table-header-bg: #F0E6CE;
+  --table-row-odd: rgba(240, 230, 206, 0.5);
+  --table-row-even: rgba(240, 230, 206, 0.7);
   
   /* Кнопки */
-  --btn-light-bg: #E6D5B5;
-  --btn-light-text: #5C4A2A;
-  --btn-light-hover: #D9C8A8;
+  --btn-light-bg: #F0E6CE; 
+  --btn-light-text: #5C4A2A; 
+  --btn-light-hover: #E6D5B5;
+  --btn-active: #D4A017; 
   
   /* Бейджи */
   --dark-badge-bg: #5C4A2A;
   --dark-badge-text: #F5E6C8;
-  --light-badge-bg: #E6A922;
+  --light-badge-bg: #D4A017;
   --light-badge-text: #3E2E10;
   
   /* Формы */
-  --input-bg: #FFF8E6;
+  --input-bg: #FFFDF5;
   --input-border: #D9B56B;
   --input-text: #3E2E10;
   --input-placeholder: #A68C5C;
+  --input-focus-border: #D4A017;
+  
+  /* Переходы */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
 }
 
-/* Специфичные стили для светлой темы */
+/* Базовые стили */
+[data-theme="light"] body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color var(--transition-medium);
+}
+
+/* Карточки */
 [data-theme="light"] .card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   box-shadow: var(--card-shadow);
-  transition: all 0.3s ease;
+  transition: all var(--transition-medium);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
+[data-theme="light"] .card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+/* Заголовки */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] .stance-title,
+[data-theme="light"] .main-title {
+  color: var(--color-heading);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Кнопки */
+[data-theme="light"] .btn,
+[data-theme="light"] .btn-filter,
+[data-theme="light"] .btn-pdf {
+  background: var(--btn-light-bg);
+  color: var(--btn-light-text);
+  border: 2px solid var(--input-border);
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+[data-theme="light"] .btn:hover,
+[data-theme="light"] .btn-filter:hover,
+[data-theme="light"] .btn-pdf:hover {
+  background: var(--btn-light-hover);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .btn-filter.active {
+  background: var(--btn-active);
+  color: var(--light-badge-text);
+  font-weight: 600;
+}
+
+/* Таблицы */
 [data-theme="light"] .table {
   background: var(--table-bg);
   border: 1px solid var(--table-border);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 [data-theme="light"] .table th {
   background: var(--table-header-bg);
   color: var(--color-heading);
+  padding: 12px 15px;
 }
 
-[data-theme="light"] .btn-filter.active {
-  background: var(--btn-light-bg);
-  color: var(--btn-light-text);
+[data-theme="light"] .table td {
+  padding: 10px 15px;
+  border-top: 1px solid rgba(217, 181, 107, 0.3);
+}
+
+/* Формы и поиск */
+[data-theme="light"] .search-input {
+  background-color: var(--input-bg);
+  border: 2px solid var(--input-border);
+  color: var(--input-text);
+  padding: 8px 15px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+}
+
+[data-theme="light"] .search-input:focus {
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.2);
+  outline: none;
+}
+
+[data-theme="light"] .search-input::placeholder {
+  color: var(--input-placeholder);
+  opacity: 0.7;
+}
+
+/* Бейджи */
+[data-theme="light"] .badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 [data-theme="light"] .dark-badge {
@@ -74,46 +166,44 @@
   color: var(--light-badge-text);
 }
 
-/*input*/
-
-[data-theme="light"] .search-input:focus {
-  box-shadow: 0 0 0 2px var(--color-primary);
-  border-color: var(--color-primary);
+/* Анимации */
+@keyframes gentle-bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
 }
 
-/*Slider*/
+[data-theme="light"] .btn:hover {
+  animation: gentle-bounce 0.4s ease;
+}
 
+/* Переключатель темы */
 [data-theme="light"] .slider {
-  background: #E6D5B5;
-  border-color: #B78D3F;
+  background: var(--table-header-bg);
+  border-color: var(--input-border);
 }
 
 [data-theme="light"] .slider:before {
-  background: #FFF8E6;
+  background: var(--color-bg);
 }
 
 [data-theme="light"] .theme-text {
-  color: #3E2E10;
+  color: var(--color-text);
 }
 
-/* Когда светлая тема активна */
-[data-theme="light"] .slider.active:before {
-  left: calc(var(--slider-width) - var(--slider-handle-size) - var(--slider-padding));
+/* Состояния */
+[data-theme="light"] a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-/* Анимации для "светлого пива" */
-[data-theme="light"] .btn:hover {
-  animation: light-foam 0.4s ease;
+[data-theme="light"] a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
 }
 
-@keyframes light-foam {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-
-[data-theme="light"] .card:hover {
-  box-shadow: 0 0 15px rgba(230, 169, 34, 0.2);
-  transform: translateY(-3px);
+/* Специфичные элементы */
+[data-theme="light"] .energy-system.card strong {
+  color: var(--color-primary);
 }

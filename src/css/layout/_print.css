@@ -8,7 +8,7 @@
   }
 
   body {
-    background: var(--color-bg) !important;
+    background-color: var(--color-bg) !important;
     color: var(--color-text) !important;
     font-family: var(--font-base) !important;
     font-size: 12pt !important;

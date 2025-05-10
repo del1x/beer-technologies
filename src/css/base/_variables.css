@@ -1,109 +1,145 @@
+/* ===== Улучшенный файл переменных ===== */
 :root {
   /* ========== Цветовая палитра ========== */
   /* Основные цвета */
   --color-primary: #2F1B0A;       
+  --color-primary-light: #5A4A3A; 
+  --color-primary-dark: #1A120B;  
+  
   --color-secondary: #FFD700;     
+  --color-secondary-light: #FFE55C;
+  --color-secondary-dark: #D4A017;
+  
   --color-bg: #FFF8E7;            
   --color-text: #2F1B0A;          
   --color-text-light: #5A4A3A;    
+  --color-text-contrast: #FFFFFF; 
   
-  /* Пивные цвета */
-  --beer-dark: #2F1B0A;           
-  --beer-light: #FFD700;          
-  --beer-amber: #D47F00;          
-  --beer-foam: #FFF8E7;           
+  /* Состояния */
+  --color-success: #27AE60;
+  --color-success-light: #D5F5E3;
+  --color-danger: #E74C3C;
+  --color-danger-light: #FADBD8;
+  --color-warning: #F39C12;
+  --color-warning-light: #FDEBD0;
+  --color-info: #3498DB;
+  --color-info-light: #D6EAF8;
   
-  /* Дополнительные цвета */
-  --color-success: #27AE60;       
-  --color-danger: #E74C3C;        
-  --color-warning: #F39C12;       
-  --color-info: #3498DB;          
-  
-  /* Полупрозрачные цвета */
+  /* Прозрачные цвета */
   --color-primary-10: rgba(47, 27, 10, 0.1);
   --color-primary-20: rgba(47, 27, 10, 0.2);
   --color-secondary-10: rgba(255, 215, 0, 0.1);
+  --color-secondary-20: rgba(255, 215, 0, 0.2);
   
   /* ========== Типографика ========== */
-  --font-base: 'Arial', sans-serif;
+  --font-base: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   --font-heading: 'Georgia', serif;
   --font-mono: 'Courier New', monospace;
   
-  --text-xs: 0.75rem;    /* 12px */
-  --text-sm: 0.875rem;   /* 14px */
-  --text-base: 1rem;     /* 16px */
-  --text-md: 1.125rem;   /* 18px */
-  --text-lg: 1.25rem;    /* 20px */
-  --text-xl: 1.5rem;     /* 24px */
-  --text-xxl: 2rem;      /* 32px */
+  --text-scale: 1.125; 
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: calc(var(--text-base) * var(--text-scale));  /* 1.125rem */
+  --text-lg: calc(var(--text-md) * var(--text-scale));   /* 1.266rem */
+  --text-xl: calc(var(--text-lg) * var(--text-scale));   /* 1.424rem */
+  --text-xxl: calc(var(--text-xl) * var(--text-scale));  /* 1.602rem */
+  --text-xxxl: calc(var(--text-xxl) * var(--text-scale)); /* 1.802rem */
   
   --line-height: 1.6;
   --line-height-heading: 1.3;
+  --letter-spacing: 0.01em;
+  --letter-spacing-heading: 0.02em;
   
   /* ========== Размеры и отступы ========== */
   --space-unit: 1rem;
-  --space-xxs: calc(var(--space-unit) * 0.25); /* 4px */
-  --space-xs: calc(var(--space-unit) * 0.5);   /* 8px */
-  --space-sm: calc(var(--space-unit) * 1);     /* 16px */
-  --space-md: calc(var(--space-unit) * 1.5);   /* 24px */
-  --space-lg: calc(var(--space-unit) * 2);     /* 32px */
-  --space-xl: calc(var(--space-unit) * 3);     /* 48px */
+  --space-xxs: calc(var(--space-unit) * 0.25);
+  --space-xs: calc(var(--space-unit) * 0.5);
+  --space-sm: calc(var(--space-unit) * 0.75);
+  --space-md: calc(var(--space-unit) * 1);
+  --space-lg: calc(var(--space-unit) * 1.5);
+  --space-xl: calc(var(--space-unit) * 2);
+  --space-xxl: calc(var(--space-unit) * 3);
   
   --border-radius-sm: 4px;
-  --border-radius: 12px;
-  --border-radius-lg: 24px;
-  --border-radius-full: 50px;
+  --border-radius: 8px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  --border-radius-full: 9999px;
   
   /* ========== Эффекты ========== */
-  --shadow-sm: 0 2px 8px rgba(47, 27, 10, 0.1);
-  --shadow-md: 0 4px 12px rgba(47, 27, 10, 0.15);
-  --shadow-lg: 0 8px 24px rgba(47, 27, 10, 0.2);
+  --shadow-sm: 0 1px 3px rgba(47, 27, 10, 0.12);
+  --shadow-md: 0 4px 6px rgba(47, 27, 10, 0.15);
+  --shadow-lg: 0 10px 15px rgba(47, 27, 10, 0.18);
+  --shadow-xl: 0 20px 25px rgba(47, 27, 10, 0.15);
   --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.05);
   
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s ease;
+  --transition-fast: 0.15s ease-out;
+  --transition-normal: 0.3s ease-out;
+  --transition-slow: 0.45s ease-out;
+  --transition-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   /* ========== Компоненты ========== */
   /* Карточки */
-  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-bg: rgba(255, 255, 255, 0.98);
+  --card-border: 1px solid rgba(47, 27, 10, 0.08);
   --card-shadow: var(--shadow-sm);
   --card-padding: var(--space-md);
+  --card-spacing: var(--space-sm);
   
   /* Таблицы */
   --table-header-bg: var(--color-primary);
-  --table-header-color: var(--color-bg);
+  --table-header-color: var(--color-text-contrast);
   --table-row-even: var(--color-bg);
   --table-row-odd: rgba(47, 27, 10, 0.03);
-  --table-border: rgba(47, 27, 10, 0.1);
+  --table-border: 1px solid rgba(47, 27, 10, 0.08);
+  --table-cell-padding: var(--space-sm) var(--space-md);
   
   /* Кнопки */
-  --btn-padding: var(--space-xs) var(--space-sm);
-  --btn-border-radius: var(--border-radius-full);
-  --btn-shadow: 0 2px 4px rgba(47, 27, 10, 0.1);
-  --btn-shadow-hover: 0 4px 8px rgba(47, 27, 10, 0.2);
+  --btn-padding: var(--space-xs) var(--space-md);
+  --btn-border-radius: var(--border-radius);
+  --btn-shadow: var(--shadow-sm);
+  --btn-shadow-hover: var(--shadow-md);
+  --btn-transition: all var(--transition-fast);
   
   /* Формы */
-  --input-border: 2px solid var(--color-primary);
-  --input-border-radius: var(--border-radius-full);
+  --input-border: 1px solid rgba(47, 27, 10, 0.2);
+  --input-border-focus: 2px solid var(--color-secondary);
+  --input-border-radius: var(--border-radius);
   --input-padding: var(--space-xs) var(--space-sm);
+  --input-shadow-focus: 0 0 0 3px var(--color-secondary-10);
 }
 
 /* ========== Тёмная тема ========== */
 [data-theme="dark"] {
-  --color-primary: #FFD700;         
-  --color-secondary: #2F1B0A;       
-  --color-bg: #1A120B;              
-  --color-text: #FFD700;            
-  --color-text-light: #D4B16A;      
+  --color-primary: #FFD700;
+  --color-primary-light: #FFE55C;
+  --color-primary-dark: #D4A017;
+  
+  --color-secondary: #2F1B0A;
+  --color-secondary-light: #5A4A3A;
+  --color-secondary-dark: #1A120B;
+  
+  --color-bg: #1A120B;
+  --color-text: #FFEDD5;
+  --color-text-light: #D4B16A;
+  --color-text-contrast: #2F1B0A;
+  
   --card-bg: rgba(26, 18, 11, 0.95);
+  --card-border: 1px solid rgba(255, 215, 0, 0.1);
   
   --table-header-bg: var(--color-primary);
   --table-header-color: var(--color-secondary);
   --table-row-even: rgba(255, 215, 0, 0.05);
   --table-row-odd: rgba(255, 215, 0, 0.02);
+  --table-border: 1px solid rgba(255, 215, 0, 0.1);
   
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
+  
+  --input-border: 1px solid rgba(255, 215, 0, 0.3);
+  --input-border-focus: 2px solid var(--color-primary);
+  --input-shadow-focus: 0 0 0 3px rgba(255, 215, 0, 0.2);
 }

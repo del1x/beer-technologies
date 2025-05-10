@@ -1,61 +1,74 @@
-/* ===== Итоговая тёмная тема ===== */
+/* ===== Улучшенная тёмная пивная тема ===== */
 [data-theme="dark"] {
   /* Основные цвета */
-  --color-bg: #0F0A05; 
-  --color-text: #FFEDD5; 
-  --color-primary: #E6B422; 
-  --color-secondary: #2E1A0A; 
+  --color-bg: #1A120B; 
+  --color-text: #F0E6D2; 
+  --color-primary: #FFC83D; 
+  --color-secondary: #3A2511; 
   
   /* Карточки */
-  --card-bg: #2E1A0A;
-  --card-text: #FFEDD5;
-  --card-border: #5C3A21;
-  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --card-bg: #2E1A0A; 
+  --card-border: #5C3A21; 
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --card-hover-shadow: 0 6px 16px rgba(255, 200, 61, 0.15);
   
-  /* Кнопки */
-  --btn-bg: #5C3A21;
-  --btn-text: #FFD79A;
-  --btn-hover: #7F4F24;
-  --btn-border: #E6B422;
-  
-  /* Поиск */
-  --input-bg: #2E1A0A;
-  --input-text: #FFEDD5;
-  --input-border: #E6B422;
-  --input-placeholder: #D9B56B;
-  
-  /* Слайдер темы */
-  --slider-bg: #5C3317;
-  --slider-border: #E6B422;
-  --slider-handle: #FFD79A;
-  --slider-text: #FFEDD5;
+  /* Текст */
+  --color-heading: #FFC83D; 
+  --color-link: #D9B56B; 
+  --color-link-hover: #FFD79A; 
   
   /* Таблицы */
-  --table-bg: #3E2815;
-  --table-header-bg: #5C3317;
-  --table-row-odd: rgba(92, 51, 23, 0.3);
-  --table-row-even: rgba(92, 51, 23, 0.5);
+  --table-bg: #2E1A0A;
+  --table-border: #5C3A21;
+  --table-header-bg: #3A2511;
+  --table-row-odd: rgba(58, 37, 17, 0.5);
+  --table-row-even: rgba(58, 37, 17, 0.7);
+  
+  /* Кнопки */
+  --btn-light-bg: #5C3A21; 
+  --btn-light-text: #FFD79A; 
+  --btn-light-hover: #7F4F24; 
+  --btn-active: #FFC83D; 
   
   /* Бейджи */
-  --dark-badge-bg: #5C3317;
+  --dark-badge-bg: #3A2511;
   --dark-badge-text: #FFD79A;
-  --light-badge-bg: #E6B422;
+  --light-badge-bg: #FFC83D;
   --light-badge-text: #2E1A0A;
+  
+  /* Формы */
+  --input-bg: #2E1A0A;
+  --input-border: #D9B56B;
+  --input-text: #F0E6D2;
+  --input-placeholder: #A68C5C;
+  --input-focus-border: #FFC83D;
+  
+  /* Переходы */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
 }
 
-/* Body */
+/* Базовые стили */
 [data-theme="dark"] body {
   background-color: var(--color-bg);
   color: var(--color-text);
+  transition: background-color var(--transition-medium);
 }
 
 /* Карточки */
 [data-theme="dark"] .card {
   background: var(--card-bg);
-  color: var(--card-text);
   border: 1px solid var(--card-border);
   box-shadow: var(--card-shadow);
-  transition: all 0.3s ease;
+  transition: all var(--transition-medium);
+  border-radius: 8px;
+  overflow: hidden;
+  color: var(--input-text);
+}
+
+[data-theme="dark"] .card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-hover-shadow);
 }
 
 /* Заголовки */
@@ -64,123 +77,130 @@
 [data-theme="dark"] h3,
 [data-theme="dark"] .stance-title,
 [data-theme="dark"] .main-title {
-  color: var(--color-primary);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-[data-theme="dark"] .energy-system.card strong {
-  color: var(--color-primary);
+  color: var(--color-heading);
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 /* Кнопки */
 [data-theme="dark"] .btn,
 [data-theme="dark"] .btn-filter,
 [data-theme="dark"] .btn-pdf {
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  border: 2px solid var(--btn-border);
-  transition: all 0.3s;
+  background: var(--btn-light-bg);
+  color: var(--btn-light-text);
+  border: 2px solid var(--input-border);
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 [data-theme="dark"] .btn:hover,
 [data-theme="dark"] .btn-filter:hover,
 [data-theme="dark"] .btn-pdf:hover {
-  background: var(--btn-hover);
-  transform: translateY(-2px);
+  background: var(--btn-light-hover);
+  transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-filter.active {
-  background: var(--color-primary);
-  color: var(--color-secondary);
-  font-weight: bold;
-}
-
-/* Кнопка PDF с иконкой */
-[data-theme="dark"] .btn-pdf {
-  position: relative;
-}
-
-[data-theme="dark"] .btn-pdf::before {
-  content: "📄";
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-}
-
-/* Поисковая строка */
-[data-theme="dark"] .search-input {
-  background-color: var(--input-bg); 
-  border-color: var(--input-border);
-  color: var(--input-text);
-}
-
-/* Переключатель темы */
-[data-theme="dark"] .slider-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0; 
-  background: transparent; 
-  border: none; 
-  border-radius: 0;
-}
-
-[data-theme="dark"] .slider {
-  position: relative;
-  left: auto;
-  top: auto;
-  transform: none;
-  background: #5C3317;
-  border: 2px solid #E6B422;
-}
-
-[data-theme="dark"] .slider:before {
-  left: calc(100% - var(--slider-handle-size) - var(--slider-padding));
-  background: #FFD79A;
-}
-
-[data-theme="dark"] .theme-text {
-  color: #FFEDD5;
-}
-
-[data-theme="dark"] .theme-icon {
-  position: static;
-  transform: none;
+  background: var(--btn-active);
+  color: var(--light-badge-text);
+  font-weight: 600;
 }
 
 /* Таблицы */
 [data-theme="dark"] .table {
   background: var(--table-bg);
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--table-border);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 [data-theme="dark"] .table th {
   background: var(--table-header-bg);
-  color: var(--color-primary);
+  color: var(--color-heading);
+  padding: 12px 15px;
 }
 
-[data-theme="dark"] .table tr:nth-child(odd) {
-  background: var(--table-row-odd);
+[data-theme="dark"] .table td {
+  padding: 10px 15px;
+  border-top: 1px solid rgba(92, 58, 33, 0.5);
 }
 
-[data-theme="dark"] .table tr:nth-child(even) {
-  background: var(--table-row-even);
+/* Формы и поиск */
+[data-theme="dark"] .search-input {
+  background-color: var(--input-bg);
+  border: 2px solid var(--input-border);
+  color: var(--input-text);
+  padding: 8px 15px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .search-input:focus {
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px rgba(255, 200, 61, 0.2);
+  outline: none;
+}
+
+[data-theme="dark"] .search-input::placeholder {
+  color: var(--input-placeholder);
+  opacity: 0.7;
+}
+
+/* Бейджи */
+[data-theme="dark"] .badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+[data-theme="dark"] .dark-badge {
+  background: var(--dark-badge-bg);
+  color: var(--dark-badge-text);
+}
+
+[data-theme="dark"] .light-badge {
+  background: var(--light-badge-bg);
+  color: var(--light-badge-text);
 }
 
 /* Анимации */
-[data-theme="dark"] .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(230, 180, 34, 0.2);
-}
-
-@keyframes beer-float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0); }
+@keyframes gentle-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
 }
 
 [data-theme="dark"] .btn:hover {
-  animation: beer-float 0.4s ease;
+  animation: gentle-pulse 0.4s ease;
+}
+
+/* Переключатель темы */
+[data-theme="dark"] .slider {
+  background: var(--table-header-bg);
+  border-color: var(--input-border);
+}
+
+[data-theme="dark"] .slider:before {
+  background: var(--btn-light-text);
+  left: calc(100% - var(--slider-handle-size) - var(--slider-padding));
+}
+
+[data-theme="dark"] .theme-text {
+  color: var(--color-text);
+}
+
+/* Состояния */
+[data-theme="dark"] a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+[data-theme="dark"] a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
 }
