@@ -35,10 +35,10 @@ bash
 npm install
 
 # Запуск dev-сервера
-npm start
+npm run dev
 
 # Production-сборка
-npm run
+npm run build
 ```
 
 
