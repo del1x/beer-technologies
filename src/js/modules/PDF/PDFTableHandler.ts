@@ -23,7 +23,7 @@ export class PDFTableHandler {
             tempContainer.appendChild(pageTable);
 
             const canvas = await html2canvas(tempContainer as HTMLElement, <any> { scale: 2 });
-            const imgData = canvas.toDataURL('image/png');
+            const imgData = canvas.toDataURL('image/jpeg');
             const imgWidth = 180;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
@@ -34,7 +34,7 @@ export class PDFTableHandler {
 
             pdf.addImage(
                 imgData,
-                'PNG',
+                'jpeg',
                 (pdf.internal.pageSize.getWidth() - imgWidth) / 2,
                 currentY,
                 imgWidth,
