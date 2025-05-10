@@ -41,13 +41,14 @@ npm start
 npm run
 ```
 
-```markdown
+
 ## 🛠 Технологии
 ![TypeScript](https://img.shields.io/badge/TypeScript-4.0+-3178C6)
 ![Webpack](https://img.shields.io/badge/Webpack-5+-8DD6F9)
 ![CSS3](https://img.shields.io/badge/CSS3-Modules-blue)
-```
+
 ## 📌 Как использовать
+```markdown
 1. **Фильтрация**  
    - Кнопки: 🍺 Все | ⚫ Тёмные | 🟡 Светлые
 
