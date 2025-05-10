@@ -2,14 +2,19 @@
 .table-wrapper {
   margin: var(--space-md) 0;
   border-radius: var(--border-radius);
-  overflow: hidden;
+  overflow-y: auto;
   box-shadow: var(--shadow-md);
   background: var(--card-bg);
   transition: all var(--transition-normal);
+  max-height: 60vh;
 }
 
 .table-wrapper:hover {
   box-shadow: var(--shadow-lg);
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
 }
 
 .table {
@@ -27,6 +32,7 @@
   text-align: left;
   position: sticky;
   top: 0;
+  z-index: 10;
   transition: background var(--transition-fast);
   text-transform: uppercase;
   font-size: var(--text-xs);
@@ -109,6 +115,7 @@
     box-shadow: var(--shadow-sm);
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    
   }
   
   .table {

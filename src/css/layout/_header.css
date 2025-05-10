@@ -19,6 +19,8 @@
     height: 4px;
     background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
     opacity: 0.8;
+    background-size: 200% auto;
+    animation: gradientFlow 3s linear infinite;
   }
   
   .control-panel {

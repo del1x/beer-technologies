@@ -1,6 +1,6 @@
 import { ThemeManager } from '@modules/ThemeManager';
 import { SearchManager } from '@modules/SearchManager';
-import { PDFManager } from '@modules/PDFManager';
+import { PDFManager } from '@modules/PDF/PDFManager';
 import { FilterManager } from '@modules/FilterManager';
 import { HoverManager } from '@modules/HoverManager';
 
@@ -14,16 +14,26 @@ export class AppInitializer {
     };
 
     constructor() {
+        const printButton = document.querySelector('.print-button');
+        const mainContent = document.querySelector('.main-content');
+        
+        if (!printButton || !mainContent) {
+            throw new Error('Required elements for PDF manager not found');
+        }
+
         this.modules = {
             theme: new ThemeManager(document.getElementById('themeToggle')!),
             search: new SearchManager(
                 document.querySelector('.search-input')!,
                 document.querySelector('.no-results')
             ),
-            pdf: new PDFManager(document.querySelector('.print-button')!),
+            pdf: new PDFManager(
+                printButton as HTMLElement,
+                mainContent as HTMLElement
+            ),
             filter: new FilterManager(
                 document.querySelectorAll('.btn-filter'),
-                document.querySelectorAll('.stance-section')
+                document.querySelectorAll('.stance-section'),
             ),
             hover: new HoverManager(document.querySelectorAll('[data-technique-row]'))
         };

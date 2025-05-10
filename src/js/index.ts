@@ -1,8 +1,13 @@
 import { BeerApp } from '@core/BeerApp';
-import { PDFManager } from '@modules/PDFManager';
+import { PDFManager } from '@modules/PDF/PDFManager';
 import '@css/main.css';
 
-const APP_CONFIG = {
+interface AppConfig {
+    API_BASE_URL: string;
+    PDF_FILENAME: string;
+}
+
+const APP_CONFIG: AppConfig = {
     API_BASE_URL: '/api',
     PDF_FILENAME: 'beer-techniques.pdf'
 };
@@ -12,8 +17,16 @@ async function initializeApp(): Promise<void> {
         const app = new BeerApp(APP_CONFIG.API_BASE_URL);
         await app.init();
         
+        const printButton = document.querySelector('.print-button');
+        const mainContent = document.querySelector('.main-content');
+        
+        if (!printButton || !mainContent) {
+            throw new Error('PDF elements not found');
+        }
+
         new PDFManager(
-            document.querySelector('.print-button'),
+            printButton as HTMLElement,
+            mainContent as HTMLElement,
             APP_CONFIG.PDF_FILENAME
         ).init();
         
