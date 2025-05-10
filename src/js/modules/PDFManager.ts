@@ -23,13 +23,12 @@ export class PDFManager {
     }
 
     private async showPreviewModal(): Promise<void> {
-    // Создаем модальное окно
     this.modal = document.createElement('div');
     this.modal.className = 'pdf-preview-modal-container';
     this.modal.innerHTML = `
         <div class="pdf-preview-modal">
             <div class="pdf-preview-header">
-                <h3>Предпросмотр PDF</h3>
+                <h3 style="color:var(--text-secondary);">Предпросмотр PDF</h3>
                 <button class="close-preview">&times;</button>
             </div>
             <div class="pdf-preview-options">
@@ -48,10 +47,8 @@ export class PDFManager {
     document.body.appendChild(this.modal);
     document.body.style.overflow = 'hidden';
 
-    // Добавляем CSS стили (теперь они в отдельном файле)
     this.addModalStyles();
 
-    // Обработчики событий
     this.modal.querySelector('.close-preview')?.addEventListener('click', () => {
         this.closeModal();
     });
@@ -62,7 +59,7 @@ export class PDFManager {
         this.closeModal();
     });
 
-    // Добавляем класс active после небольшой задержки, чтобы применились стили
+
     setTimeout(() => {
         this.modal?.classList.add('active');
     }, 10);
@@ -108,7 +105,6 @@ export class PDFManager {
         printContainer.style.color = getComputedStyle(document.body).color;
         printContainer.style.fontFamily = 'Arial, sans-serif';
 
-        // Клонируем контент
         const contentClone = content.cloneNode(true) as HTMLElement;
         
         // Удаляем ненужные элементы для печати
@@ -118,19 +114,12 @@ export class PDFManager {
         printContainer.appendChild(contentClone);
         document.body.appendChild(printContainer);
 
-        // Добавляем заголовок
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(20);
-        pdf.setTextColor(40, 40, 40);
-        pdf.text(this.TITLE, pdf.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
-
         // Разбиваем на страницы
         let currentY = 30;
         const pageHeight = pdf.internal.pageSize.getHeight() - this.PAGE_MARGIN * 2;
         const sections = Array.from(contentClone.children) as HTMLElement[];
 
         for (const section of sections) {
-            // Специальная обработка таблиц
             if (section.classList.contains('table-wrapper')) {
                 currentY = await this.handleTablePDF(pdf, section as HTMLElement, currentY, pageHeight);
                 continue;
@@ -188,7 +177,6 @@ export class PDFManager {
         tempContainer.style.width = '180mm';
         document.body.appendChild(tempContainer);
 
-        // Клонируем таблицу
         const tableClone = table.cloneNode(true) as HTMLTableElement;
         const rows = Array.from(tableClone.rows) as HTMLTableRowElement[];
         if (rows.length === 0) return currentY;
@@ -197,15 +185,12 @@ export class PDFManager {
         let remainingRows = rows.slice(1);
 
         while (remainingRows.length > 0) {
-            // Создаем таблицу для текущей страницы
             const pageTable = document.createElement('table');
             pageTable.className = tableClone.className;
             pageTable.appendChild(header.cloneNode(true));
 
             let currentPageHeight = header.offsetHeight;
             let rowsToAdd: HTMLTableRowElement[] = [];
-
-            // Выбираем строки для текущей страницы
             for (let i = 0; i < remainingRows.length; i++) {
                 const row = remainingRows[i];
                 const rowHeight = row.offsetHeight;
@@ -218,11 +203,10 @@ export class PDFManager {
                 currentPageHeight += rowHeight;
             }
 
-            // Добавляем выбранные строки
+
             rowsToAdd.forEach(row => pageTable.appendChild(row.cloneNode(true)));
             remainingRows = remainingRows.slice(rowsToAdd.length);
 
-            // Рендерим часть таблицы
             tempContainer.innerHTML = '';
             tempContainer.appendChild(pageTable);
 
@@ -235,7 +219,7 @@ export class PDFManager {
             const imgWidth = 180;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-            // Проверяем, помещается ли на текущую страницу
+
             if (currentY + imgHeight > pageHeight) {
                 pdf.addPage();
                 currentY = this.PAGE_MARGIN;
@@ -252,7 +236,6 @@ export class PDFManager {
 
             currentY += imgHeight + 10;
 
-            // Если остались строки - новая страница
             if (remainingRows.length > 0) {
                 pdf.addPage();
                 currentY = this.PAGE_MARGIN;
