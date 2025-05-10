@@ -14,42 +14,41 @@
 - **📄 Однокнопочный экспорт** в PDF
 
 ## 🏗 Структура проекта
-- public/api/
-- ├── src/
-- │ ├── css/
-- │ │ ├── base/ # Базовые стили
-- │ │ ├── components/ # Стили компонентов
-- │ │ ├── layout/ # Макетные стили
-- │ │ └── themes/ # Темы оформления
-- │ └── js/
-- │ ├── core/ # Основная логика
-- │ └── modules/ # Функциональные модули
-- ├── index.html
-- └── index.ts # Точка входа
-
-
-### 5. Быстрый старт
 ```markdown
+ public/api/
+├── src/
+│ ├── css/
+│ │ ├── base/ # Базовые стили
+│ │ ├── components/ # Стили компонентов
+│ │ ├── layout/ # Макетные стили
+│ │ └── themes/ # Темы оформления
+│ └── js/
+│ ├── core/ # Основная логика
+│ └── modules/ # Функциональные модули
+├── index.html
+└── index.ts # Точка входа
+```
 ## 🚀 Быстрый старт
-```bash
+```markdown
+bash
 # Установка зависимостей
 npm install
 
 # Запуск dev-сервера
-npm start
+npm run dev
 
 # Production-сборка
 npm run build
+```
 
 
-### 6. Технологии
-```markdown
 ## 🛠 Технологии
 ![TypeScript](https://img.shields.io/badge/TypeScript-4.0+-3178C6)
 ![Webpack](https://img.shields.io/badge/Webpack-5+-8DD6F9)
 ![CSS3](https://img.shields.io/badge/CSS3-Modules-blue)
 
 ## 📌 Как использовать
+```markdown
 1. **Фильтрация**  
    - Кнопки: 🍺 Все | ⚫ Тёмные | 🟡 Светлые
 
