@@ -15,20 +15,32 @@ export class SearchManager {
   }
 
   search(query: string): void {
-      const rows = document.querySelectorAll<HTMLElement>('.table tbody tr');
-      let hasResults = false;
+    const rows = document.querySelectorAll<HTMLElement>('.table tbody tr');
+    let hasResults = false;
 
-      rows.forEach((row: HTMLElement) => {
-          const rowText = Array.from(row.querySelectorAll<HTMLElement>('td'))
-              .map(td => td.textContent?.toLowerCase() || '')
-              .join(' ');
-          const isVisible = !query || rowText.includes(query);
-          row.style.display = isVisible ? '' : 'none';
-          if (isVisible) hasResults = true;
-      });
+    console.log('Search query:', query); // Логируем запрос
 
-      if (this.noResultsElement) {
-          this.noResultsElement.classList.toggle('show', Boolean(query && !hasResults));
-      }
-  }
+    rows.forEach((row: HTMLElement) => {
+        const rowText = Array.from(row.querySelectorAll<HTMLElement>('td'))
+            .map(td => td.textContent?.toLowerCase() || '')
+            .join(' ');
+
+        const isVisible = !query || rowText.includes(query);
+        row.style.display = isVisible ? '' : 'none';
+
+        console.log(`Row text: "${rowText}", isVisible: ${isVisible}`); // Логируем текст строки и её видимость
+
+        if (isVisible) hasResults = true;
+    });
+
+    if (this.noResultsElement) {
+        const shouldShowNoResults = Boolean(query && !hasResults);
+        this.noResultsElement.classList.toggle('show', shouldShowNoResults);
+
+        console.log('No results element visibility:', shouldShowNoResults); // Логируем состояние noResultsElement
+    }
+
+    console.log('Has results:', hasResults); // Логируем, есть ли совпадения
+}
+  
 }

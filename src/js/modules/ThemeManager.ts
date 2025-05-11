@@ -18,13 +18,13 @@ export class ThemeManager {
       this.setTheme(newTheme);
   }
 
-  private setTheme(theme: string): void {
+  public setTheme(theme: string): void {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
       this.updateUI(theme);
   }
 
-  private updateUI(theme: string): void {
+  public updateUI(theme: string): void {
       const themeText = this.toggleElement?.querySelector<HTMLElement>('.theme-text');
       const themeIcon = this.toggleElement?.querySelector<HTMLElement>('.theme-icon');
       
@@ -32,7 +32,7 @@ export class ThemeManager {
       if (themeIcon) themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
   }
 
-  private restoreTheme(): void {
+  public restoreTheme(): void {
       this.setTheme(localStorage.getItem('theme') || 'light');
   }
 }
