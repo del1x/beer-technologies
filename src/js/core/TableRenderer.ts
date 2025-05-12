@@ -1,17 +1,4 @@
-interface Technique {
-    id: number | string;
-    name: string;
-    effect: string;
-    energy: string;
-}
-
-interface BeerType {
-    name: string;
-    stance: 'dark' | 'light';
-    style: string;
-    energy: string;
-    feature: string;
-}
+import { Technique, BeerType } from './Tables-data';
 
 export class TableRenderer {
     static renderTechniquesTable(
@@ -31,7 +18,7 @@ export class TableRenderer {
                 return this.renderEmptyState(container, 'Техники для выбранного стиля не найдены');
             }
 
-            container.innerHTML = this.generateTechniquesTable(techniques);
+            this.safeRender(container, this.generateTechniquesTable(techniques));
         } catch (error) {
             console.error('Error rendering techniques table:', error);
             this.renderErrorState(container);
@@ -52,11 +39,18 @@ export class TableRenderer {
                 return this.renderEmptyState(container, 'Данные о пиве не найдены');
             }
 
-            container.innerHTML = this.generateBeerTable(data);
+            this.safeRender(container, this.generateBeerTable(data));
         } catch (error) {
             console.error('Error rendering beer table:', error);
             this.renderErrorState(container);
         }
+    }
+
+    private static safeRender(container: HTMLElement, html: string): void {
+        container.innerHTML = '';
+        const template = document.createElement('template');
+        template.innerHTML = html;
+        container.appendChild(template.content.cloneNode(true));
     }
 
     private static generateTechniquesTable(techniques: Technique[]): string {
@@ -114,22 +108,22 @@ export class TableRenderer {
     }
 
     public static renderEmptyState(container: HTMLElement, message: string): void {
-        container.innerHTML = `
+        this.safeRender(container, `
             <div class="table-empty">
                 <p>${this.escapeHtml(message)}</p>
             </div>
-        `;
+        `);
     }
 
     public static renderErrorState(container: HTMLElement): void {
-        container.innerHTML = `
+        this.safeRender(container, `
             <div class="table-error">
                 <p>🍺 Произошла ошибка при загрузке данных</p>
-                <button class="btn-retry" onclick="window.location.reload()">
+                <button class="btn-retry">
                     Попробовать снова
                 </button>
             </div>
-        `;
+        `);
     }
 
     private static escapeHtml(unsafe: string | number): string {
