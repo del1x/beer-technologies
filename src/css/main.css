@@ -12,7 +12,10 @@
 @import "./layout/_grid.css";
 @import "./layout/_print.css";
 @import "./layout/_modal.css";
+@import "./layout/_toast.css";
+@import "./layout/_erorrs.css";
 
 @import "./themes/_dark.css";
 @import "./themes/_light.css";
+
 

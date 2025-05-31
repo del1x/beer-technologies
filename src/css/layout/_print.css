@@ -23,7 +23,8 @@
   .search-box,
   .btn,
   .theme-toggle,
-  .no-print {
+  .no-print,
+  .toast toast-success {
     display: none !important;
   }
 

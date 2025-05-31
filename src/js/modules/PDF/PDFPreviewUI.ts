@@ -1,4 +1,5 @@
 import { PDFGenerator } from "./PDFGenerator";
+import { PDFManager } from "./PDFManager";
 
 export class PDFPreviewUI {
     private modal: HTMLElement | null = null;
@@ -6,7 +7,8 @@ export class PDFPreviewUI {
     constructor(
         private pdfGenerator: PDFGenerator,
         private content: HTMLElement,
-        private filename: string
+        private filename: string,
+        private pdfManager?: PDFManager // Добавляем опциональный параметр
     ) {}
 
     public async show(): Promise<void> {
@@ -29,7 +31,7 @@ export class PDFPreviewUI {
             <div class="pdf-preview-modal">
                 <div class="pdf-preview-header">
                     <h3 style="color:var(--text-secondary);">Предпросмотр PDF</h3>
-                    <button class="close-preview">&times;</button>
+                    <button class="close-preview">×</button>
                 </div>
                 <div class="pdf-preview-options">
                     <label>
@@ -68,6 +70,8 @@ export class PDFPreviewUI {
                 document.body.removeChild(this.modal as HTMLElement);
                 document.body.style.overflow = '';
                 this.modal = null;
+                // Сообщаем PDFManager, что окно закрыто
+                this.pdfManager?.onPreviewClose();
             }, 300);
         }
     }

@@ -3,7 +3,11 @@ import html2canvas from 'html2canvas';
 import { PDFTableHandler } from '@modules/PDF/PDFTableHandler';
 
 export class PDFGenerator {
-    private readonly PAGE_MARGIN = 15; // mm
+    private readonly PAGE_MARGIN = 15; // Отступы в мм
+    private readonly PAGE_WIDTH = 210; // Ширина A4 в мм
+    private readonly PAGE_HEIGHT = 297; // Высота A4 в мм
+    private readonly CONTENT_WIDTH = this.PAGE_WIDTH - this.PAGE_MARGIN * 2;
+    private readonly USABLE_HEIGHT = this.PAGE_HEIGHT - this.PAGE_MARGIN * 2;
 
     public async generatePDF(
         content: HTMLElement,
@@ -12,39 +16,93 @@ export class PDFGenerator {
         forPreview: boolean = false
     ): Promise<Blob> {
         const pdf = new jsPDF('p', 'mm', 'a4');
-        const printContainer = this.createPrintContainer(content, fullWidth);
         
-        let currentY = 30;
-        const pageHeight = pdf.internal.pageSize.getHeight() - this.PAGE_MARGIN * 2;
-        const sections = Array.from(printContainer.children) as HTMLElement[];
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const backgroundColorHex = currentTheme === 'dark' ? '#18110a' : '#f9f5ed';
+        const rgb = this.hexToRgb(backgroundColorHex);
 
-        for (const section of sections) {
-            if (section.classList.contains('table-wrapper')) {
-                currentY = await this.renderTable(pdf, section as HTMLElement, currentY, pageHeight);
-                continue;
+        try {
+            const mainSections = Array.from(content.querySelectorAll(
+                '.intro-section, .stance-section, .energy-system-section'
+            )) as HTMLElement[];
+
+            console.log(`Total main sections found in content: ${mainSections.length}`);
+            mainSections.forEach((section, index) => {
+                const parentClass = section.parentElement ? section.parentElement.className : 'No parent';
+                console.log(`Main section ${index + 1}: ${section.className}, text: ${section.innerText.substring(0, 50)}..., parent: ${parentClass}`);
+            });
+
+            for (let i = 0; i < mainSections.length; i++) {
+                if (i > 0) pdf.addPage();
+                pdf.setFillColor(rgb[0], rgb[1], rgb[2]);
+                (pdf as any).rect(0, 0, this.PAGE_WIDTH, this.PAGE_HEIGHT, 'F');
+
+                const section = mainSections[i];
+                console.log(`Rendering main section ${i + 1} (${section.className}) on page ${pdf.internal.getNumberOfPages()}`);
+
+                const printContainer = this.createPrintContainer(section, backgroundColorHex);
+                const tableWrapper = printContainer.querySelector('.table-wrapper') as HTMLElement;
+
+                try {
+                    if (tableWrapper) {
+                        // Рендерим секцию без таблицы
+                        tableWrapper.style.display = 'none';
+                        const canvas = await html2canvas(printContainer, <any> {
+                            scale: 2,
+                            backgroundColor: backgroundColorHex,
+                            useCORS: true
+                        });
+
+                        const imgWidth = this.CONTENT_WIDTH;
+                        let imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        let yPos = this.PAGE_MARGIN;
+
+                        pdf.addImage(
+                            canvas.toDataURL('image/jpeg', 0.9),
+                            'JPEG',
+                            this.PAGE_MARGIN,
+                            yPos,
+                            imgWidth,
+                            imgHeight
+                        );
+
+                        yPos += imgHeight + 10; // Отступ после секции
+
+                        // Рендерим таблицу отдельно
+                        tableWrapper.style.display = 'block';
+                        const tableHandler = new PDFTableHandler();
+                        await tableHandler.handleTable(pdf, tableWrapper, yPos);
+                    } else {
+                        await this.renderSection(pdf, printContainer, backgroundColorHex);
+                    }
+                } catch (error) {
+                    console.error(`Error rendering section ${i + 1} (${section.className}):`, error);
+                } finally {
+                    document.body.removeChild(printContainer);
+                }
             }
 
-            currentY = await this.renderSection(pdf, section, currentY, pageHeight, fullWidth);
-        }
-
-        document.body.removeChild(printContainer);
-
-        if (forPreview) {
-            return pdf.output('blob');
-        } else {
-            pdf.save(filename);
-            return pdf.output('blob');
+            console.log('Finished rendering all sections. Saving PDF...');
+            if (forPreview) {
+                return pdf.output('blob');
+            } else {
+                pdf.save(filename);
+                return pdf.output('blob');
+            }
+        } catch (error) {
+            console.error('Failed to generate PDF:', error);
+            throw error;
         }
     }
 
-    private createPrintContainer(content: HTMLElement, fullWidth: boolean): HTMLElement {
+    private createPrintContainer(content: HTMLElement, backgroundColor: string): HTMLElement {
         const printContainer = document.createElement('div');
         printContainer.id = 'pdf-print-container';
-        printContainer.style.position = 'fixed';
+        printContainer.style.position = 'absolute';
         printContainer.style.left = '-9999px';
-        printContainer.style.width = fullWidth ? '210mm' : '180mm';
-        printContainer.style.padding = '20mm';
-        printContainer.style.background = getComputedStyle(document.body).backgroundColor;
+        printContainer.style.width = `${this.PAGE_WIDTH}mm`;
+        printContainer.style.padding = '0';
+        printContainer.style.background = backgroundColor;
         printContainer.style.color = getComputedStyle(document.body).color;
 
         const contentClone = content.cloneNode(true) as HTMLElement;
@@ -55,105 +113,36 @@ export class PDFGenerator {
         return printContainer;
     }
 
-    private async renderSection(
-        pdf: jsPDF,
-        section: HTMLElement,
-        currentY: number,
-        pageHeight: number,
-        fullWidth: boolean
-    ): Promise<number> {
+    private async renderSection(pdf: jsPDF, section: HTMLElement, backgroundColor: string): Promise<void> {
+        section.style.background = backgroundColor;
+
         const canvas = await html2canvas(section, <any> {
             scale: 2,
-            backgroundColor: getComputedStyle(document.body).backgroundColor,
+            backgroundColor: backgroundColor,
+            useCORS: true
         });
 
-        const imgData = canvas.toDataURL('image/jpeg');
-        const imgWidth = fullWidth ? pdf.internal.pageSize.getWidth() - this.PAGE_MARGIN * 2 : 160;
+        const imgWidth = this.CONTENT_WIDTH;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        if (currentY + imgHeight > pageHeight) {
-            pdf.addPage();
-            currentY = this.PAGE_MARGIN;
-        }
-
+        const yPos = (this.PAGE_HEIGHT - imgHeight) / 2;
+        
         pdf.addImage(
-            imgData,
-            'jpeg',
-            fullWidth ? this.PAGE_MARGIN : (pdf.internal.pageSize.getWidth() - imgWidth) / 2,
-            currentY,
+            canvas.toDataURL('image/jpeg', 0.9),
+            'JPEG',
+            this.PAGE_MARGIN,
+            Math.max(this.PAGE_MARGIN, yPos),
             imgWidth,
             imgHeight
         );
-
-        return currentY + imgHeight + 10;
     }
 
-    private async renderTable(
-        pdf: jsPDF,
-        tableWrapper: HTMLElement,
-        currentY: number,
-        pageHeight: number
-    ): Promise<number> {
-        const table = tableWrapper.querySelector('table');
-        if (!table) return currentY;
-
-        const tempContainer = document.createElement('div');
-        tempContainer.style.position = 'absolute';
-        tempContainer.style.left = '-9999px';
-        tempContainer.style.width = '180mm';
-        document.body.appendChild(tempContainer);
-
-        const rows = Array.from(table.rows) as HTMLTableRowElement[];
-        let remainingRows = rows.slice(1);
-
-        while (remainingRows.length > 0) {
-            const pageTable = document.createElement('table');
-            pageTable.className = table.className;
-            pageTable.appendChild(rows[0].cloneNode(true));
-
-            let currentPageHeight = rows[0].offsetHeight;
-            let rowsToAdd: HTMLTableRowElement[] = [];
-            
-            for (const row of remainingRows) {
-                if (currentPageHeight + row.offsetHeight > pageHeight - currentY - 10) break;
-                rowsToAdd.push(row);
-                currentPageHeight += row.offsetHeight;
-            }
-
-            rowsToAdd.forEach(row => pageTable.appendChild(row.cloneNode(true)));
-            remainingRows = remainingRows.slice(rowsToAdd.length);
-
-            tempContainer.innerHTML = '';
-            tempContainer.appendChild(pageTable);
-
-            const canvas = await html2canvas(tempContainer as HTMLElement, <any>{ scale: 2 });
-            const imgData = canvas.toDataURL('image/jpeg');
-            const imgWidth = 180;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-            if (currentY + imgHeight > pageHeight) {
-                pdf.addPage();
-                currentY = this.PAGE_MARGIN;
-            }
-
-            pdf.addImage(
-                imgData,
-                'jpeg',
-                (pdf.internal.pageSize.getWidth() - imgWidth) / 2,
-                currentY,
-                imgWidth,
-                imgHeight
-            );
-
-            currentY += imgHeight + 10;
-
-            if (remainingRows.length > 0) {
-                pdf.addPage();
-                currentY = this.PAGE_MARGIN;
-            }
-        }
-
-        document.body.removeChild(tempContainer);
-        return currentY;
+    private hexToRgb(hexColor: string): number[] {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexColor);
+        return result ? [
+            parseInt(result[1], 16),
+            parseInt(result[2], 16),
+            parseInt(result[3], 16)
+        ] : [0, 0, 0];
     }
 }

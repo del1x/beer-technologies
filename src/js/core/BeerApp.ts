@@ -1,9 +1,13 @@
 import { AppInitializer } from '@core/AppInitializer';
 import { TableRenderer } from '@core/TableRenderer';
+import { Toast } from '@core/Toast';
 
 export class BeerApp {
     private appInitializer: AppInitializer;
     private apiBaseUrl: string;
+    private retryCount = 0;
+    private readonly MAX_RETRIES = 2;
+    private retryToast: HTMLElement | null = null; // Храним ссылку на уведомление
 
     constructor(apiBaseUrl: string = '/api') {
         this.appInitializer = new AppInitializer();
@@ -13,19 +17,62 @@ export class BeerApp {
     public async init(): Promise<void> {
         try {
             await this.renderAllTables();
-            this.appInitializer.init();
+            await this.appInitializer.init();
+            Toast.show('Приложение готово к использованию!', 'success'); // Уведомление об успехе
         } catch (error) {
-            console.error('Initialization failed:', error);
-            throw error;
+            this.handleInitError(error);
+        }
+    }
+
+    private async handleInitError(error: unknown): Promise<void> {
+        console.error('Initialization error:', error);
+
+        if (this.retryCount < this.MAX_RETRIES) {
+            this.retryCount++;
+            const retryMessage = `Попытка ${this.retryCount}/${this.MAX_RETRIES}. Перезагружаем...`;
+            if (this.retryCount === 1) {
+                this.retryToast = document.createElement('div');
+                Toast.show(retryMessage, 'error');
+            } else if (this.retryToast) {
+                this.retryToast.textContent = retryMessage;
+            } else {
+                this.retryToast = document.createElement('div');
+                Toast.show(retryMessage, 'error');
+            }
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            return this.init();
+        }
+
+        Toast.show('Не удалось загрузить приложение. Пожалуйста, обновите страницу.', 'error');
+        this.renderGlobalErrorState();
+    }
+
+    private renderGlobalErrorState(): void {
+        const appContainer = document.body;
+        if (appContainer) {
+            appContainer.innerHTML = `
+                <div class="global-error">
+                    <h2>🍺 Ой, что-то пошло не так!</h2>
+                    <p>Мы не смогли загрузить приложение</p>
+                    <button id="reload-button" class="btn-retry">
+                        Обновить страницу
+                    </button>
+                </div>
+            `;
+            document.getElementById('reload-button')?.addEventListener('click', () => {
+                window.location.reload();
+            });
         }
     }
 
     private async fetchData<T>(endpoint: string): Promise<T> {
-        const response = await fetch(`${this.apiBaseUrl}/${endpoint}.json`);
-        if (!response.ok) {
-            throw new Error(`Failed to load ${endpoint}: ${response.status}`);
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/${endpoint}.json`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            throw error;
         }
-        return await response.json();
     }
 
     private async renderAllTables(): Promise<void> {
@@ -34,35 +81,44 @@ export class BeerApp {
                 this.fetchData<Record<string, any>>('techniques'),
                 this.fetchData<any[]>('beer-types')
             ]);
-
             this.renderTechniquesTables(techniquesData);
             this.renderBeerTable(beerTypesData);
             this.appInitializer.updateHoverManager();
         } catch (error) {
-            console.error('Error rendering tables:', error);
-            throw error;
+            console.error('Table rendering error:', error);
+            throw new Error('Failed to render tables');
         }
     }
 
     private renderTechniquesTables(data: Record<string, any>): void {
-        document.querySelectorAll<HTMLElement>('[data-table-type="techniques"]').forEach(container => {
-            const style = container.dataset.style;
-            if (style && data[style]) {
-                TableRenderer.renderTechniquesTable(container, style, data);
-            } else {
-                TableRenderer.renderEmptyState(container, 'Стиль техник не найден');
-            }
-        });
+        try {
+            document.querySelectorAll<HTMLElement>('[data-table-type="techniques"]').forEach(container => {
+                const style = container.dataset.style;
+                if (style && data[style]) {
+                    TableRenderer.renderTechniquesTable(container, style, data);
+                } else {
+                    TableRenderer.renderEmptyState(container, 'Стиль техник не найден');
+                }
+            });
+        } catch (error) {
+            console.error('Techniques table error:', error);
+            throw error;
+        }
     }
 
     private renderBeerTable(data: any[]): void {
-        const container = document.querySelector<HTMLElement>('[data-table-type="beer-types"]');
-        if (container) {
-            if (data?.length) {
-                TableRenderer.renderBeerTable(container, data);
-            } else {
-                TableRenderer.renderEmptyState(container, 'Данные о пиве не загружены');
+        try {
+            const container = document.querySelector<HTMLElement>('[data-table-type="beer-types"]');
+            if (container) {
+                if (data?.length) {
+                    TableRenderer.renderBeerTable(container, data);
+                } else {
+                    TableRenderer.renderEmptyState(container, 'Данные о пиве не загружены');
+                }
             }
+        } catch (error) {
+            console.error('Beer table error:', error);
+            throw error;
         }
     }
 }

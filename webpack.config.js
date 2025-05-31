@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/js/index.ts',
@@ -8,7 +9,8 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.[contenthash].js',
     clean: true,
-    publicPath: '/'
+    publicPath: '/',
+    assetModuleFilename: 'assets/[name][ext]' // Определяем имя для ресурсов
   },
   module: {
     rules: [
@@ -28,7 +30,8 @@ module.exports = {
             }
           },
           'postcss-loader'
-        ]
+        ],
+        type: 'asset/resource' // Убедимся, что CSS обрабатывается как ресурс
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -69,6 +72,11 @@ module.exports = {
           from: 'public/images',
           to: 'images',
           noErrorOnMissing: true
+        },
+        {
+          from: 'src/css/*.css', // Копируем CSS-файлы в dist
+          to: 'css/[name][ext]',
+          noErrorOnMissing: true
         }
       ]
     })
@@ -84,7 +92,8 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist')
+      directory: path.join(__dirname, 'dist'),
+      serveIndex: true // Включаем отладку статических файлов
     },
     historyApiFallback: true,
     port: 8080,
@@ -95,12 +104,30 @@ module.exports = {
         errors: true
       }
     },
-    compress: true
+    compress: true,
+    headers: {
+      'X-Content-Type-Options': 'nosniff', // Устанавливаем заголовок для безопасности
+      'Content-Type': 'text/css; charset=utf-8' // Устанавливаем правильный MIME-тип для CSS
+    },
+    devMiddleware: {
+      writeToDisk: true // Записываем файлы на диск для отладки
+    }
   },
   optimization: {
     minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true // Удаляет console.log в продакшене
+          }
+        }
+      })
+    ],
     splitChunks: {
       chunks: 'all'
     }
-  }
+  },
+  devtool: 'source-map', // Добавляем source-map для отладки
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'
 };

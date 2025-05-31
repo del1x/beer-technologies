@@ -1,0 +1,41 @@
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    border-radius: var(--border-radius-sm); /* 4px */
+    color: var(--color-text-contrast); /* Белый в светлой теме, темный в темной */
+    z-index: 1000;
+    animation: fadeInOut 5s ease-out; /* Новая анимация на 5 секунд */
+}
+
+.toast-error {
+    background-color: var(--color-danger); /* Красный, #E74C3C */
+}
+
+.toast-success {
+    background-color: var(--color-success); /* Зеленый, #27AE60 */
+}
+
+.toast-warning {
+    background-color: var(--color-warning); /* Оранжевый, #F39C12 */
+}
+
+.toast-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    color: var(--color-text-contrast);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(20px); }
+}
