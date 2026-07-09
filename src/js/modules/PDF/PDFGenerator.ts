@@ -1,21 +1,28 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { PDFTableHandler } from '@modules/PDF/PDFTableHandler';
+import {
+    createPDFPageLayout,
+    LEGACY_PDF_EXPORT_OPTIONS,
+    PDFExportOptions,
+    PDFPageLayout
+} from './PDFExportOptions';
 
 export class PDFGenerator {
-    private readonly PAGE_MARGIN = 15; // Отступы в мм
-    private readonly PAGE_WIDTH = 210; // Ширина A4 в мм
-    private readonly PAGE_HEIGHT = 297; // Высота A4 в мм
-    private readonly CONTENT_WIDTH = this.PAGE_WIDTH - this.PAGE_MARGIN * 2;
-    private readonly USABLE_HEIGHT = this.PAGE_HEIGHT - this.PAGE_MARGIN * 2;
-
     public async generatePDF(
         content: HTMLElement,
         filename: string,
         fullWidth: boolean = true,
-        forPreview: boolean = false
+        forPreview: boolean = false,
+        options?: Readonly<PDFExportOptions>
     ): Promise<Blob> {
-        const pdf = new jsPDF('p', 'mm', 'a4');
+        const exportOptions = options ?? LEGACY_PDF_EXPORT_OPTIONS;
+        const layout = createPDFPageLayout(exportOptions);
+        const pdf = new jsPDF(
+            exportOptions.orientation === 'portrait' ? 'p' : 'l',
+            'mm',
+            exportOptions.format
+        );
         
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const backgroundColorHex = currentTheme === 'dark' ? '#18110a' : '#f9f5ed';
@@ -35,12 +42,12 @@ export class PDFGenerator {
             for (let i = 0; i < mainSections.length; i++) {
                 if (i > 0) pdf.addPage();
                 pdf.setFillColor(rgb[0], rgb[1], rgb[2]);
-                (pdf as any).rect(0, 0, this.PAGE_WIDTH, this.PAGE_HEIGHT, 'F');
+                (pdf as any).rect(0, 0, layout.pageWidthMm, layout.pageHeightMm, 'F');
 
                 const section = mainSections[i];
                 console.log(`Rendering main section ${i + 1} (${section.className}) on page ${pdf.internal.getNumberOfPages()}`);
 
-                const printContainer = this.createPrintContainer(section, backgroundColorHex);
+                const printContainer = this.createPrintContainer(section, backgroundColorHex, layout);
                 const tableWrapper = printContainer.querySelector('.table-wrapper') as HTMLElement;
 
                 try {
@@ -53,14 +60,14 @@ export class PDFGenerator {
                             useCORS: true
                         });
 
-                        const imgWidth = this.CONTENT_WIDTH;
+                        const imgWidth = layout.contentWidthMm;
                         let imgHeight = (canvas.height * imgWidth) / canvas.width;
-                        let yPos = this.PAGE_MARGIN;
+                        let yPos = layout.marginMm;
 
                         pdf.addImage(
                             canvas.toDataURL('image/jpeg', 0.9),
                             'JPEG',
-                            this.PAGE_MARGIN,
+                            layout.marginMm,
                             yPos,
                             imgWidth,
                             imgHeight
@@ -70,10 +77,10 @@ export class PDFGenerator {
 
                         // Рендерим таблицу отдельно
                         tableWrapper.style.display = 'block';
-                        const tableHandler = new PDFTableHandler();
+                        const tableHandler = new PDFTableHandler(layout);
                         await tableHandler.handleTable(pdf, tableWrapper, yPos);
                     } else {
-                        await this.renderSection(pdf, printContainer, backgroundColorHex);
+                        await this.renderSection(pdf, printContainer, backgroundColorHex, layout);
                     }
                 } catch (error) {
                     console.error(`Error rendering section ${i + 1} (${section.className}):`, error);
@@ -95,12 +102,16 @@ export class PDFGenerator {
         }
     }
 
-    private createPrintContainer(content: HTMLElement, backgroundColor: string): HTMLElement {
+    private createPrintContainer(
+        content: HTMLElement,
+        backgroundColor: string,
+        layout: PDFPageLayout
+    ): HTMLElement {
         const printContainer = document.createElement('div');
         printContainer.id = 'pdf-print-container';
         printContainer.style.position = 'absolute';
         printContainer.style.left = '-9999px';
-        printContainer.style.width = `${this.PAGE_WIDTH}mm`;
+        printContainer.style.width = `${layout.pageWidthMm}mm`;
         printContainer.style.padding = '0';
         printContainer.style.background = backgroundColor;
         printContainer.style.color = getComputedStyle(document.body).color;
@@ -113,7 +124,12 @@ export class PDFGenerator {
         return printContainer;
     }
 
-    private async renderSection(pdf: jsPDF, section: HTMLElement, backgroundColor: string): Promise<void> {
+    private async renderSection(
+        pdf: jsPDF,
+        section: HTMLElement,
+        backgroundColor: string,
+        layout: PDFPageLayout
+    ): Promise<void> {
         section.style.background = backgroundColor;
 
         const canvas = await html2canvas(section, <any> {
@@ -122,16 +138,16 @@ export class PDFGenerator {
             useCORS: true
         });
 
-        const imgWidth = this.CONTENT_WIDTH;
+        const imgWidth = layout.contentWidthMm;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        const yPos = (this.PAGE_HEIGHT - imgHeight) / 2;
+        const yPos = (layout.pageHeightMm - imgHeight) / 2;
         
         pdf.addImage(
             canvas.toDataURL('image/jpeg', 0.9),
             'JPEG',
-            this.PAGE_MARGIN,
-            Math.max(this.PAGE_MARGIN, yPos),
+            layout.marginMm,
+            Math.max(layout.marginMm, yPos),
             imgWidth,
             imgHeight
         );

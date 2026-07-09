@@ -1,14 +1,15 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { createPDFPageLayout, PDFPageLayout } from './PDFExportOptions';
 
 export class PDFTableHandler {
-    private readonly PAGE_MARGIN = 15; // Отступы в мм
-    private readonly PAGE_WIDTH = 210; // Ширина A4 в мм
-    private readonly PAGE_HEIGHT = 297; // Высота A4 в мм
-    private readonly CONTENT_WIDTH = this.PAGE_WIDTH - this.PAGE_MARGIN * 2;
-    private readonly USABLE_HEIGHT = this.PAGE_HEIGHT - this.PAGE_MARGIN * 2;
+    constructor(private readonly layout: PDFPageLayout = createPDFPageLayout()) {}
 
-    public async handleTable(pdf: jsPDF, tableWrapper: HTMLElement, startY: number = this.PAGE_MARGIN): Promise<void> {
+    public async handleTable(
+        pdf: jsPDF,
+        tableWrapper: HTMLElement,
+        startY: number = this.layout.marginMm
+    ): Promise<void> {
         const table = tableWrapper.querySelector('table') as HTMLTableElement;
         if (!table) {
             console.error('No table found in tableWrapper');
@@ -27,7 +28,7 @@ export class PDFTableHandler {
             const row = rows[i];
             const rowClone = row.cloneNode(true) as HTMLTableRowElement;
             const tempTable = document.createElement('table');
-            tempTable.style.width = `${this.PAGE_WIDTH}mm`;
+            tempTable.style.width = `${this.layout.pageWidthMm}mm`;
             tempTable.appendChild(rowClone);
             tableWrapper.appendChild(tempTable);
 
@@ -37,18 +38,18 @@ export class PDFTableHandler {
                 useCORS: true
             });
 
-            const imgWidth = this.CONTENT_WIDTH;
+            const imgWidth = this.layout.contentWidthMm;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
             // Проверяем, помещается ли строка на текущей странице
-            if (currentY + imgHeight > this.USABLE_HEIGHT && currentPageRows.length > 0) {
+            if (currentY + imgHeight > this.layout.usableHeightMm && currentPageRows.length > 0) {
                 // Рендерим накопленные строки на текущей странице
                 await this.renderRows(pdf, currentPageRows, tableWrapper, startY, backgroundColorHex);
                 // Переходим на новую страницу
                 pdf.addPage();
                 pdf.setFillColor(rgb[0], rgb[1], rgb[2]);
-                (pdf as any).rect(0, 0, this.PAGE_WIDTH, this.PAGE_HEIGHT, 'F');
-                currentY = this.PAGE_MARGIN;
+                (pdf as any).rect(0, 0, this.layout.pageWidthMm, this.layout.pageHeightMm, 'F');
+                currentY = this.layout.marginMm;
                 currentPageRows = [];
             }
 
@@ -72,7 +73,7 @@ export class PDFTableHandler {
         backgroundColor: string
     ): Promise<void> {
         const tempTable = document.createElement('table');
-        tempTable.style.width = `${this.PAGE_WIDTH}mm`;
+        tempTable.style.width = `${this.layout.pageWidthMm}mm`;
         rows.forEach(row => tempTable.appendChild(row));
         tableWrapper.appendChild(tempTable);
 
@@ -82,13 +83,13 @@ export class PDFTableHandler {
             useCORS: true
         });
 
-        const imgWidth = this.CONTENT_WIDTH;
+        const imgWidth = this.layout.contentWidthMm;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
         pdf.addImage(
             canvas.toDataURL('image/jpeg', 0.9),
             'JPEG',
-            this.PAGE_MARGIN,
+            this.layout.marginMm,
             startY,
             imgWidth,
             imgHeight
