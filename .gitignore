@@ -1,2 +1,8 @@
 dist/
 node_modules/
+PROJECT_ANALYSIS_AND_ROADMAP.md
+.gitignore
+PROJECT_ANALYSIS_AND_ROADMAP.md
+.ai/
+.notes/
+prompts/

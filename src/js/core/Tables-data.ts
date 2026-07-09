@@ -1,3 +1,12 @@
+export const TECHNIQUE_STYLES = [
+    'dark-precise',
+    'dark-chaos',
+    'light-pure',
+    'light-chaos'
+] as const;
+
+export type TechniqueStyle = typeof TECHNIQUE_STYLES[number];
+
 export interface Technique {
     id: number | string;
     name: string;
@@ -5,10 +14,15 @@ export interface Technique {
     energy: string;
 }
 
+export type TechniquesData = Record<TechniqueStyle, Technique[]>;
+
+export type BeerStance = 'dark' | 'light';
+export type BeerStyle = 'Мутный' | 'Чистый';
+
 export interface BeerType {
     name: string;
-    stance: 'dark' | 'light';
-    style: string;
+    stance: BeerStance;
+    style: BeerStyle;
     energy: string;
     feature: string;
 }

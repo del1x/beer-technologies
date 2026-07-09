@@ -1,6 +1,10 @@
 import { AppInitializer } from '@core/AppInitializer';
 import { TableRenderer } from '@core/TableRenderer';
 import { Toast } from '@core/Toast';
+import { BeerType, TechniquesData, TechniqueStyle } from '@core/Tables-data';
+import { validateBeerTypesData, validateTechniquesData } from '@core/DataValidation';
+
+type DataValidator<T> = (value: unknown) => asserts value is T;
 
 export class BeerApp {
     private appInitializer: AppInitializer;
@@ -65,11 +69,13 @@ export class BeerApp {
         }
     }
 
-    private async fetchData<T>(endpoint: string): Promise<T> {
+    private async fetchData<T>(endpoint: string, validate: DataValidator<T>): Promise<T> {
         try {
             const response = await fetch(`${this.apiBaseUrl}/${endpoint}.json`);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
+            const data: unknown = await response.json();
+            validate(data);
+            return data;
         } catch (error) {
             throw error;
         }
@@ -78,8 +84,8 @@ export class BeerApp {
     private async renderAllTables(): Promise<void> {
         try {
             const [techniquesData, beerTypesData] = await Promise.all([
-                this.fetchData<Record<string, any>>('techniques'),
-                this.fetchData<any[]>('beer-types')
+                this.fetchData<TechniquesData>('techniques', validateTechniquesData),
+                this.fetchData<BeerType[]>('beer-types', validateBeerTypesData)
             ]);
             this.renderTechniquesTables(techniquesData);
             this.renderBeerTable(beerTypesData);
@@ -90,10 +96,10 @@ export class BeerApp {
         }
     }
 
-    private renderTechniquesTables(data: Record<string, any>): void {
+    private renderTechniquesTables(data: TechniquesData): void {
         try {
             document.querySelectorAll<HTMLElement>('[data-table-type="techniques"]').forEach(container => {
-                const style = container.dataset.style;
+                const style = container.dataset.style as TechniqueStyle | undefined;
                 if (style && data[style]) {
                     TableRenderer.renderTechniquesTable(container, style, data);
                 } else {
@@ -106,7 +112,7 @@ export class BeerApp {
         }
     }
 
-    private renderBeerTable(data: any[]): void {
+    private renderBeerTable(data: BeerType[]): void {
         try {
             const container = document.querySelector<HTMLElement>('[data-table-type="beer-types"]');
             if (container) {

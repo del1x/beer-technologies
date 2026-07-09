@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Полный список пивных приёмов</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <script src="dist/bundle.js" defer></script>
 </head>
 <body class="container">
     <header class="header">
@@ -31,7 +29,7 @@
     </header>
 
     <main class="main-content">
-        <section class="intro-section">
+        <section class="intro-section" data-section-id="intro">
             <div class="energy-system card">
                 🍺 <strong>Пивные приёмы</strong> - это арсенал риторических техник для интеллектуальных поединков,
                 где каждая пинта становится источником стратегического преимущества.
@@ -49,7 +47,7 @@
         </section>
 
         <!-- Тёмная стойка -->
-        <section class="stance-section" data-stance="dark">
+        <section class="stance-section" data-stance="dark" data-section-id="dark-stance">
             <h2 class="stance-title">🔮 Тёмная стойка</h2>
             
             <!-- Стратегия точного удара -->
@@ -97,7 +95,7 @@
         </section>
 
         <!-- Светлая стойка -->
-        <section class="stance-section" data-stance="light">
+        <section class="stance-section" data-stance="light" data-section-id="light-stance">
             <h2 class="stance-title">💡 Светлая стойка</h2>
             
             <!-- Элегантная гармония -->
@@ -144,7 +142,7 @@
         </section>
 
         <!-- Система энергии -->
-        <section class="energy-system-section">
+        <section class="energy-system-section" data-section-id="energy-system">
             <h2 class="section-title">⚡ Система энергии</h2>
                 <div class="card">
                     <div class="card-content">

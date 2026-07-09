@@ -30,8 +30,7 @@ module.exports = {
             }
           },
           'postcss-loader'
-        ],
-        type: 'asset/resource' // Убедимся, что CSS обрабатывается как ресурс
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -73,11 +72,6 @@ module.exports = {
           to: 'images',
           noErrorOnMissing: true
         },
-        {
-          from: 'src/css/*.css', // Копируем CSS-файлы в dist
-          to: 'css/[name][ext]',
-          noErrorOnMissing: true
-        }
       ]
     })
   ],
@@ -106,8 +100,7 @@ module.exports = {
     },
     compress: true,
     headers: {
-      'X-Content-Type-Options': 'nosniff', // Устанавливаем заголовок для безопасности
-      'Content-Type': 'text/css; charset=utf-8' // Устанавливаем правильный MIME-тип для CSS
+      'X-Content-Type-Options': 'nosniff' // Устанавливаем заголовок для безопасности
     },
     devMiddleware: {
       writeToDisk: true // Записываем файлы на диск для отладки
